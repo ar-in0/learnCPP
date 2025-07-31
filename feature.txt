@@ -1,1 +1,5 @@
-This is a test for feature. feature/stacked is a branch with this commit as base.
+This is a test for feature. feature-stacked is a branch with this commit as base.
+
+This line exists in the feature-stacked branch only.
+
+I am now testing commit --amend on a stacked pr
