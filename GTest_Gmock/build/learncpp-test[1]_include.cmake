@@ -1,0 +1,5 @@
+if(EXISTS "/home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/learncpp-test[1]_tests.cmake")
+  include("/home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/learncpp-test[1]_tests.cmake")
+else()
+  add_test(learncpp-test_NOT_BUILT learncpp-test_NOT_BUILT)
+endif()

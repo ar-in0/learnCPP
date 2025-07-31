@@ -34,6 +34,16 @@ FGAlias::add() // instead of Foo::Goo::add()
 Unnamed (anon) namespaces mark all its identifiers as internally linked.
 - Helps when theres a lot of idents, and you dont want to use static on all.
 
+
+## vairable shadowing
+In a nested scope, re-initializing (redefining) a variable perviously defined in the outer sccope will update the value of the temporary variable in the inner scope, deleted on scope exit.
+However, reassigning in the inner without defining a new variable will update the outer scope variable
+
+- local vars with same name as a global will always shadow the global when local is in scope/
+
+https://www.learncpp.com/cpp-tutorial/why-non-const-global-variables-are-evil/
+- global variable initialization order (siof)
+
 # Identifiers and Scope Guidelines
 https://www.learncpp.com/cpp-tutorial/scope-duration-and-linkage-summary/
 Identifiers have two properties: `duration` and `linkage`.

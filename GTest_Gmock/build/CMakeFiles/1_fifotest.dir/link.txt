@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/1_fifotest.dir/1_fifotest.cpp.o -o 1_fifotest  lib/libgtest_main.a lib/libgtest.a 

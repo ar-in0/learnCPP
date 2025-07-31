@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/0_factorialtest.dir/0_factorialtest.cpp.o -o 0_factorialtest  lib/libgtest_main.a lib/libgtest.a 

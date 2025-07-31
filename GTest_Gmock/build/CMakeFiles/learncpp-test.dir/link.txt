@@ -1,0 +1,1 @@
+/usr/bin/c++ "CMakeFiles/learncpp-test.dir/0_factorialtest.cpp.o" "CMakeFiles/learncpp-test.dir/1_fifotest.cpp.o" -o learncpp-test  lib/libgtest_main.a lib/libgtest.a 

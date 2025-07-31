@@ -1,0 +1,5 @@
+add_test([=[FactorialTest.HandlesZeroInput]=]  /home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/0_factorialtest [==[--gtest_filter=FactorialTest.HandlesZeroInput]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[FactorialTest.HandlesZeroInput]=]  PROPERTIES WORKING_DIRECTORY /home/armaan/Fun-CS/learnCPP/GTest_Gmock/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[FactorialTest.HandlesPositiveInput]=]  /home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/0_factorialtest [==[--gtest_filter=FactorialTest.HandlesPositiveInput]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[FactorialTest.HandlesPositiveInput]=]  PROPERTIES WORKING_DIRECTORY /home/armaan/Fun-CS/learnCPP/GTest_Gmock/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  0_factorialtest_TESTS FactorialTest.HandlesZeroInput FactorialTest.HandlesPositiveInput)

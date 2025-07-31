@@ -1,0 +1,5 @@
+if(EXISTS "/home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/0_factorialtest[1]_tests.cmake")
+  include("/home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/0_factorialtest[1]_tests.cmake")
+else()
+  add_test(0_factorialtest_NOT_BUILT 0_factorialtest_NOT_BUILT)
+endif()

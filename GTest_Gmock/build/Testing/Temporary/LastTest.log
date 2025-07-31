@@ -1,0 +1,57 @@
+Start testing: Jul 27 23:28 IST
+----------------------------------------------------------
+1/2 Testing: FactorialTest.HandlesZeroInput
+1/2 Test: FactorialTest.HandlesZeroInput
+Command: "/home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/0_factorialtest" "--gtest_filter=FactorialTest.HandlesZeroInput" "--gtest_also_run_disabled_tests"
+Directory: /home/armaan/Fun-CS/learnCPP/GTest_Gmock/build
+"FactorialTest.HandlesZeroInput" start time: Jul 27 23:28 IST
+Output:
+----------------------------------------------------------
+Running main() from /home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = FactorialTest.HandlesZeroInput
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FactorialTest
+[ RUN      ] FactorialTest.HandlesZeroInput
+[       OK ] FactorialTest.HandlesZeroInput (0 ms)
+[----------] 1 test from FactorialTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"FactorialTest.HandlesZeroInput" end time: Jul 27 23:28 IST
+"FactorialTest.HandlesZeroInput" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: FactorialTest.HandlesPositiveInput
+2/2 Test: FactorialTest.HandlesPositiveInput
+Command: "/home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/0_factorialtest" "--gtest_filter=FactorialTest.HandlesPositiveInput" "--gtest_also_run_disabled_tests"
+Directory: /home/armaan/Fun-CS/learnCPP/GTest_Gmock/build
+"FactorialTest.HandlesPositiveInput" start time: Jul 27 23:28 IST
+Output:
+----------------------------------------------------------
+Running main() from /home/armaan/Fun-CS/learnCPP/GTest_Gmock/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = FactorialTest.HandlesPositiveInput
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from FactorialTest
+[ RUN      ] FactorialTest.HandlesPositiveInput
+[       OK ] FactorialTest.HandlesPositiveInput (0 ms)
+[----------] 1 test from FactorialTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"FactorialTest.HandlesPositiveInput" end time: Jul 27 23:28 IST
+"FactorialTest.HandlesPositiveInput" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 27 23:28 IST

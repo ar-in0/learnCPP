@@ -9,7 +9,7 @@
 // std::cout cant be returned as an object.
 auto ret_stdout() {
    auto x = 5;
-   return (x = 5); // but value assingement returns x
+   return (x = 6); // but value assingement returns x
 }
 
 int main() {
