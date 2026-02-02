@@ -5,7 +5,7 @@ C++ has:
 - literal constant: constant values not associated with an identifier (ex. some_constant_value)
 
 named constants: constant variables, object-like macros with subst. text, enumerated constants.
-non constant variables: value can be changed at any time via assignemnt.
+non constant variables: value can be changed at any time via assignment.
 ```C++
 // non-const variables
 int main()
@@ -18,25 +18,25 @@ int main()
 ```
 
 ```C++
-// const variable declaration, "const" keyword is called the "const qualifier"
+// constant variable (named constant) declaration, "const" keyword is called the "const qualifier"
 const double gravity { 9.8 };  // preferred use of const before type. Type of gravity == [const double]
 int const sidesInSquare { 4 }; // "east const" style, okay but not preferred
 
-// - const variables must be initialized upon definition.
+// - constant variables must be initialized upon definition.
 const double gravity;
 gravity = 9.99; // error!
 
-// const variables can be initialized from other (even non-const!) variables
+// constant variables can be initialized from other (even non-constant!) variables
 int age = 77;
 const int constAge {age};
 
-// const variables cannot be modified
+// constant variables cannot be modified
 age = 88; // OK
 constAge = age // NOT OK
 
 
 // const function parameters
-// - no explicit initializer passed to the const variable x that is used as a function parameter.
+// - no explicit initializer passed to the constant variable x that is used as a function parameter.
 // - This is OK, since the variable is only defined when called, at which point the passed value
 // is used to initialize the const x.
 // ---
@@ -50,7 +50,7 @@ void printInt(const int x) // x is a "value parameter"
     std::cout << x << '\n';
 }
 
-printInt(5); // 5 used as the initializer to x
+printInt(5); // 5 used as the initializer to the named constant (constant variable) x
 printInt(8); // 8 used as the initializer to x
 ```
 Best practice: Make variables constant whenever possible. 
@@ -133,13 +133,13 @@ int pass(const int x) // x is a runtime constant. It is set to a value at runtim
 
 int main()
 {
-    // The following are non-constants:
+    // The following are non-constant variables:
     [[maybe_unused]] int a { 5 };
 
-    // The following are compile-time constants:
+    // The following are compile-time constants (constant variables):
     [[maybe_unused]] const int b { 5 };
     [[maybe_unused]] const double c { 1.2 };
-    [[maybe_unused]] const int d { b };       // b is a compile-time constant
+        [[maybe_unused]] const int d { b };       // b is a compile-time constant (constant variable)
 
     // The following are runtime constants:
     // value is determined in a runtime context.
@@ -165,7 +165,7 @@ static_assert (discussed in lesson 9.6 -- Assert and static_assert).
 ## Constant expressions
 https://www.learncpp.com/cpp-tutorial/constant-expressions/
 - standard defines "constant expressions" rather than "compile-time xxx": These are expression that must be evaluatable at compile-time.
-- In a constant expression (non-empty sequence of literals, variables, operators, and function calls) each part of the expression must be evaluatable at compile-time.
+- In a constant expression (non-empty sequence of literals, constant variables, operators, and function calls) each part of the expression must be evaluatable at compile-time.
 - if a constant expression is required somewhere, compiler will inform.
 
 A few common cases where a compile-time evaluatable expression is required:
@@ -232,16 +232,18 @@ The likelihood that an expression is fully evaluated at compile-time can be cate
 - Always: A constant expression used in a context that requires a constant expression.
 
 # Constant identifiers and compile-time optimization
-Use of constants guarantees to the compiler that the value of this ident will not change in the future, therefore the compiler can more reliably perform constant folding, dead-code elim optimizations.
+>Use of constants guarantees to the compiler that the value of this ident will not change in the future, therefore the compiler can more reliably perform constant folding, dead-code elim optimizations.
 - Expressions are evaluated either at runtime or compile time. 
 - constant expression is a non-empty sequence of literals, constant variables, operators, and function calls, all of which must be evaluatable at compile-time
 
-Const identifiers can be used in compile-time (i.e. constant) expressions. Therefore, these must always be compile-time evaluated
+Const identifiers can be used in compile-time expressions (called constant expressions acc to standard) expressions. Therefore, these must always be compile-time evaluated
 ```
 const int x { 3 + 4 }; // constant expression 3 + 4 must be evaluated at compile-time
 int y { 3 + 4 };       // constant expression 3 + 4 may be evaluated at compile-time or runtime
 ```
 - only const *integral* variables with a constant expression initializer are compile-time constants (i.e. constant expressions).
+- `const` before any other type does not guarantee that the variable will be treated by the compiler as a constant expression (i.e. evaluable at compile time)
+- Therefore c++ introduced the `constexpr` keyword to mark non-integer variables as constant expressions.
 
 
 # Constexpr Variables
@@ -359,7 +361,8 @@ int main() {
     // Return values are temporary objects that are destroyed at the end of the full expression containing the function call. 
     // We must either use this return value immediately, or copy it to use later.
     // it is essentially filling up %r9 with the std::string, but %r9 is cleared
-    // so the string that name is viewing is also lost.
+    // so the string that name is viewing is also lost. (To be precise, a portion of the
+    // stack will be used to store the return value, but will be cleared)
     // --------------------------------------------------------------------------
     // Q. but isnt there a copy of the return value being made in the initializer?
     // A. NO. Copy would be made if:

@@ -33,6 +33,17 @@ int main()
     PRINTVCAT(x);        // lvalue
     PRINTVCAT(std::string {"Hello"}); // rvalue
     PRINTVCAT("Hello");  // lvalue
+// increment x and return x itself
+// int y = 8
+// int b = ++y // b = 9, y = 9
+
     PRINTVCAT(++x);      // lvalue
+                         //
+    // increment the value of x and return the OLD value
+    // x++ is a temp value - a copy of the old value
+    // made before incrementing the old value
+    // ex.
+    // int x = 5;
+    // int a = x++ // a = 5, x = 6
     PRINTVCAT(x++);      // rvalue
 }

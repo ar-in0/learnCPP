@@ -1,4 +1,4 @@
-# Namespace Guidelines
+# Chapter 7: Namespace Guidelines
 Namespaces: Help avoiding name collisions in large C++ projects.
 
 `A::b` is the scope resolution operator. Compiler looks for the definition of `b` in the `A` namespace.
@@ -36,8 +36,8 @@ Unnamed (anon) namespaces mark all its identifiers as internally linked.
 
 
 ## vairable shadowing
-In a nested scope, re-initializing (redefining) a variable perviously defined in the outer sccope will update the value of the temporary variable in the inner scope, deleted on scope exit.
-However, reassigning in the inner without defining a new variable will update the outer scope variable
+In a nested scope, re-initializing (redefining) a variable perviously defined in the outer sccope will update the value of the temporary variable in the inner scope, deleted on scope exit. (int x = 5 in inner, wth int x = 8 in outer, x = 5 will persist till inner scope exit)
+However, reassigning in the inner without defining a new variable will update the outer scope variable (int x = 5 in outer, x = 12 in inner sets x =12 in outer also)
 
 - local vars with same name as a global will always shadow the global when local is in scope/
 
@@ -48,7 +48,7 @@ https://www.learncpp.com/cpp-tutorial/why-non-const-global-variables-are-evil/
 https://www.learncpp.com/cpp-tutorial/scope-duration-and-linkage-summary/
 Identifiers have two properties: `duration` and `linkage`.
 - Automatic duration: identifier is destroyed at the end of the block in which it was defined.
-- No Linkage: If the same identifier is declarated in seperate blocks, each refers to a different object.
+- Identifier has "No Linkage": If the same identifier is declarated in seperate blocks, each refers to a different object.
 - Local identifiers have no linkage.
 
 Internal Linkage: identifier visible only to its own translation unit. Marked by `static`.

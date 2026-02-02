@@ -1,3 +1,14 @@
+# Chapter 12
+Datatypes: Either Fundamental or Compound/Composite (defined in terms of other types), defined by th C++ standard.
+
+C++ Compound Data Types:
+- Funcs, C-style arrays, pointer-to-object, pointer-to-func, pointer-to-data-member, pointer to member fuction, 
+- L-value, R-value references, scoped and unscoped enums
+- structs, classes, unions
+* Type of func void a(int x, double y) => `void(int, double)`
+
+"Expression": A combination of literals, variables (identifiers), operators, and function calls that can be executed to produce a singular value, produce side effects, and evaluate to objects and functions
+
 All expressions in C++ have two properties: a `type` and a `value category`. (identifiers have duration and linkage)
 - `type` of an expression is the type of the object that results upon evaluating that expression.
 - `type` of an expression must be determinable at compiletime (although its value need not be - see constexpr).
@@ -77,7 +88,7 @@ Operators expect their operands to be rvalues, unless otherwise speccified (ex. 
 - For example, binary operator+ expects its operands to be rvalues:
 
 # Rule of thumb
-- Lvalue expressions are those that evaluate to functions or identifiable objects (including variables) that persist beyond the end of the expression.
+- Lvalue expressions are those that evaluate to functions or "identifiable objects" - i.e. whose address can be found (including variables) that persist beyond the end of the expression.
 - Rvalue expressions are those that evaluate to values, including literals and temporary objects that do not persist beyond the end of the expression.
 
 Full list of lvalues and rvalues: https://en.cppreference.com/w/cpp/language/value_category
@@ -132,12 +143,19 @@ int& ref2{ ref1 }; // an lvalue reference bound to var
 ```
 
 ## Assigning dissimilar types to a refernce
-
 "If you try to bind a const lvalue reference to a value of a different type, the compiler will create a temporary object of the same type as the reference, initialize it using the value, and then bind the reference to the temporary."
+
+``` c++
+const int& 02.f; // compiler creates a temp object, storing bytes of 0.2f in an int, and then bind the ref to the temporary value.
+```
 
 lvalue refernce to const: `const int&`
 - These can be assigned to rvalues, although here a temporary object will be created.
 - modifications to the original object will not be reflected by access via refernce, because the referncce aliases a newly created temporary object of same type.
+
+New temp objects are created when:
+a. value of a different type is assigned to a "const lvalue reference" (`const double x`)
+b. rvalue is assigned to a const lvalue reference
 
 ## Utility of References (i.e. variable aliasing)
 Declaring functions to take refernce parameters enables pass by reference over pass by value.
@@ -148,7 +166,7 @@ lvalue refernce to non-const only allows passing non-const objects by reference 
 ```
 #include <iostream>
 
-void printRef(const int& y) // y is a const reference
+void printRef(const int& y) // y is a const reference, an lvalue reference to const
 {
     std::cout << y << '\n';
 }
@@ -270,7 +288,7 @@ int main()
     Employee e { "James", 34 };
     printEmployeeID(e); // we know the Employee's ID now
 
-    printEmployeeID( { "Dave", 62 } ); // we can even pass rvalues
+    printEmployeeID( { "Dave", 62 } ); // we can even pass rvalues. e is bound to a temp object
 
     return 0;
 }
@@ -281,12 +299,18 @@ int main()
 - A const keyword used to make a pointer function parameter a const pointer provides little value (since it has no impact on the caller, and mostly serves as documentation that the pointer won’t change).
 - A const keyword used to differentiate a pointer-to-const from a pointer-to-non-const that can modify the object passed in is significant (as the caller needs to know if the function could change the value of the argument).
 ```
+// Use clockwise rule, starting from unknown ident
+// https://c-faq.com/decl/spiral.anderson.html
+arg[0]: source is a pointer to a char constant, arg[1]: dest is a point to char
 void foo(const char* source, char* dest, int count);             // Using non-const pointers, all consts are significant.
-void foo(const char* const source, char* const dest, int count); // Using const pointers, `dest` being a pointer-to-non-const may go unnoticed amongst the sea of spurious consts.
+
+// source is a constant pointer to a char constant
+// dest is a constant pointer to a char (clockwise rule)
+void foo(const char* const source, char* const dest/*non-modifiable pointer to a modifiable dest*/, int count); // Using const pointers, `dest` being a pointer-to-non-const may go unnoticed amongst the sea of spurious consts.
 ```
 - In the former case, it’s easy to see that source is a pointer-to-const and dest is a pointer-to-non-const. 
 - In the latter case, it’s much harder to see that dest is a const-pointer-to-non-const, whose pointed-to object can be modified by the function!
-- `const char* const source`: const pointer to const. (i.e. cannot reassign source ka value, cannot modify the char stored at the address pointed to by source.)
+- `const char* const source`: constant pointer to a char constant. (i.e. cannot reassign source ka value, cannot modify the char stored at the address pointed to by source.)
 
 ## Best Practice
 - Prefer pointer-to-const function parameters over pointer-to-non-const function parameters, unless the function needs to modify the object passed in.
@@ -296,14 +320,13 @@ Do not make function parameters const pointers unless there is some specific rea
 
 
 ## Changing what a pointer parameter points at
-- Pass by address creates a copy of the object address. So reassigning in the function will only change address
-of the copy, not the original ptr object.
+- Pass by address creates a copy of the object address. So reassigning in the function will only change address of the copy, not the original ptr object.
 
 - To actually modify the original, we'd need to pass the pointer by refernce (LOL)
 ```
 #include <iostream>
 
-void nullify(int*& refptr) // refptr is now a reference to a pointer
+void nullify(int*& refptr) // refptr is now a reference to a pointer to int
 {
     refptr = nullptr; // Make the function parameter a null pointer
 }

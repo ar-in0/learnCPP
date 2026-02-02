@@ -1,4 +1,4 @@
-# User-Defined Types (Program-Defined Types)
+# Chapter 13: User-Defined Types (Program-Defined Types)
 Two categories:
 - Enumerated types (including unscoped and scoped enumerations)
 - Class types (including structs, classes, and unions).
@@ -6,6 +6,8 @@ All program-defined types (i.e. new types) must be defined and given a name befo
 
 "the C++20 language standard helpfully defines the term “program-defined type” to mean class types and enumerated types that are not defined as part of the standard library, implementation, or core language. In other words, “program-defined types” only include class types and enum types that are defined by us (or a third-party library)."
 
+Type definition: definition for a user defined type
+- TD + name -> valid type. compiler needs to know how much mem to allocate.
 ## Creating Program Defined Types
 Best Practice:
 - Name your program-defined types starting with a capital letter and do not use a suffix.
@@ -14,6 +16,12 @@ Best Practice:
 
 ## Enumerations
 Scoped and Unscoped.
+Unscoped enumerations have each enumerator in th esame scope as the defintion
+- SO in the same scope, 2 enumerations cannot contain the same enumerator -- name collision
+- putting your enumerations inside a named scope region (such as a namespace or class) to avoid name collisions.
+- enumerators are constexpr
+Enum to string: https://www.learncpp.com/cpp-tutorial/converting-an-enumeration-to-and-from-a-string/
+
 ```
 // Define a new unscoped enumeration named Color
 enum Color
@@ -93,6 +101,30 @@ constexpr std::string_view getPetName(Pet pet)
 
 - Overload the I/O operators
 
+- Overload the unary + operator:
+
+``` c++
+#include <type_traits> // underlying_type_t
+// Overload the unary + operator to convert an enum to the underlying type
+// adapted from https://stackoverflow.com/a/42198760, thanks to Pixelchemist for the idea
+// In C++23, you can #include <utility> and return std::to_underlying(a) instead
+template <typename T>
+constexpr auto operator+(T a) noexcept
+{
+    return static_cast<std::underlying_type_t<T>>(a); //c++23
+}
+
+int main()
+{
+    std::cout << +Animals::elephant << '\n'; // convert Animals::elephant to an integer using unary operator+
+
+    return 0;
+}
+```
+
+
+`using enum`: C++20, for scoped enums (enum class)
+- using enum <name> to bring enumeratoin into current scope, avoids scope resolutionn operatosr
 
 
 
@@ -119,3 +151,80 @@ int main()
     return 0;
 }
 ```
+
+`Employee joe {}; // value-initialize all members`
+
+
+Passing structs to functions
+- usually by reference, maybe const refernce
+`void printEmployee(const Employee& employee)`: employee isa reference to an Employee constant (i.e. the struct passed in cannot be changed)
+
+- Structs defined inside functions are usually returned by value, so as not to return a dangling reference.
+
+Class Templates
+- analogous to function templates, but for types of data members rather than parameters
+- Difference: Type defintions (struct) cannot be overloaded...so we need a class generator i.e. template
+https://www.learncpp.com/cpp-tutorial/class-templates/
+
+Comining class and fnction tenmplates:
+
+``` c++
+template <typename T>
+struct Pair
+{
+    T first{};
+    T second{};
+};
+
+template <typename T>
+constexpr T max(Pair<T> p)
+{
+    return (p.first < p.second ? p.second : p.first);
+}
+
+int main()
+{
+    Pair<int> p1{ 5, 6 };
+    std::cout << max<int>(p1) << " is larger\n"; // explicit call to max<int>
+
+    Pair<double> p2{ 1.2, 3.4 };
+    std::cout << max(p2) << " is larger\n"; // call to max<double> using template argument deduction (prefer this)
+
+    return 0;
+}
+```
+- use `std::pair`
+
+
+Class Template Argument Deduction
+https://www.learncpp.com/cpp-tutorial/class-template-argument-deduction-ctad-and-deduction-guides/
+
+Use C++20!
+Why?
+- C++17 class template deduction rules need to be put manually
+
+``` c++
+template <typename T, typename U>
+struct Pair
+{
+    T first{};
+    U second{};
+};
+
+// Here's a deduction guide for our Pair (needed in C++17 only)
+// Pair objects initialized with arguments of type T and U should deduce to Pair<T, U>
+template <typename T, typename U>
+Pair(T, U) -> Pair<T, U>;
+
+int main()
+{
+    Pair<int, int> p1{ 1, 2 }; // explicitly specify class template Pair<int, int> (C++11 onward)
+    
+    Pair p2{ 1, 2 };     //ok in c++20, c++17 fails without deduction guid.
+    // CTAD used to deduce Pair<int, int> from the initializers (C++17)
+
+    return 0;
+}
+```
+
+`
